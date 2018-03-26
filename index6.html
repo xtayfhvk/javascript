@@ -1,0 +1,86 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+	<meta charset="utf-8" />
+    <script>
+        
+        
+        /**
+            该程序的主要目的是为了测试,  类式继承中,不可以向父类构造函数传递参数的问题.
+           
+        **/
+        var Book = function (args) {
+            this.flag = false;
+            this.book = ['javascript', 'php'];
+            this.config = args;
+        }
+
+
+        Book.prototype.getFlag = function () {
+            return this.flag;
+        }
+
+        Book.prototype.getConfig = function()
+        {
+            return this.config;
+        }
+
+        var book1 = function () {
+            this.flag = true;
+        }
+
+
+
+        // 尝试用闭包的方式进行处理
+
+        var demo = function (subclass)
+        {
+            
+            return function (superclass,arguments)
+            {
+                if (superclass instanceof Object)
+                {
+                    console.log(111);
+                    subclass.prototype = new superclass(arguments);
+                }
+            }
+        }
+
+
+        var inhert = demo(book1);
+
+        inhert(Book, [1, 2, 3]);
+
+        var instance  = new book1();
+        var instance1 = new book1();
+        console.log(instance);
+        console.log(instance.getConfig());
+
+
+        instance.book.push('java');
+        console.log(instance1.book);
+
+        /**
+            通过测试, 在类式继承中,可以给父类的构造函数传递参数.
+
+            结论:
+                通过如上测试, 类式继承会出现一个问题,就是在子类的实例中,
+                修改了上的某一个属性,会互相影响.
+
+    
+           新问题 :
+                子类特有的属性,子类的实例修改会有影响吗?
+
+
+        **/
+
+
+    </script>  
+</head>
+<body>
+
+</body>
+</html>

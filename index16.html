@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-1.11.3.js"></script>
+    <script>
+        //工厂类的实现
+        /**
+         *  实现的机制,自动匹配类名称,自动匹配参数.
+         *  如果同c语言比较,那么如果函数指针一样, 指向了不同的函数,就取那个函数的实际结果,
+         *  同php对比, call_user_fun_array// call_user_fun 的用法是一致的,
+         *  项目中这样的如果这样使用了,那么工厂类的原型上会存在很多方法,
+         *  搞得工厂原型比价臃肿.
+         */
+
+        var Factory = function(name,context)
+        {
+            if(this instanceof  Factory)
+            {
+                var s = new this[name](context);
+                return s;
+            }else{
+                // 需要说明一下,这个的作用.原书籍上是错误的, 如果这样写了,
+                return new Factory(name,context);
+            }
+        }
+
+        Factory.prototype = {
+            'javascript': function(context)
+            {
+                console.log('javascript:'+context);
+            },
+
+            'java':function(context)
+            {
+                console.log('java :'+context);
+            }
+
+        };
+
+
+
+
+        Factory('javascript','object instance');
+        Factory('java','object instance');
+        Factory('php','object instance');
+
+
+
+
+
+
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

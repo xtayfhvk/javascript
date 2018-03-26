@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        /**
+         *   类的继承学习,
+         *   对继承的不同实现, 对方法进行优缺点描述,
+         *
+         *
+         */
+
+        // 类式继承,  1 父类的构造函数的参数  2  修改父类属性对实例的印象。
+
+        function SuperClass(name) {
+            this.name  = name;
+        }
+
+        SuperClass.prototype.getSuperName= function()
+        {
+            return this.name;
+        };
+
+        SuperClass.prototype.getSuperThis = function()
+        {
+            return this;
+        };
+
+
+
+        
+        function SubClass(name) {
+            this.name  = name;
+        }
+
+        SubClass.prototype = new SuperClass('javascript');
+
+        SubClass.prototype.getSubName = function()
+        {
+            return this.name;
+        };
+
+        SubClass.prototype.getSubThis=function()
+        {
+            return this;
+        }
+
+
+        var instance = new SubClass('java');
+
+        console.log(instance);
+        console.log(instance.getSuperName());   // output : java
+        console.log(instance.getSubName());     // output : java
+        console.log(instance.getSuperThis());     // output : java
+        console.log(instance.getSubThis());     // output : java
+
+
+        /**
+         *   说明:
+         *   通过如上的操作,  instance实例的prototype为superclass,
+         *   任意类的constructor是指向自己本身的, 现在被指向为superclass.
+         *   将对象的prototype修改为另一个对象的实例, 会将当前对象的__proto__中的constructor修改掉, 同时见__proto__指向对象实例。
+         *   测试结果说明: 父类和子类使用
+         *   
+         */
+
+
+
+        function Book()
+        {
+
+        }
+
+
+        Book.prototype.getBookThis = function()
+        {
+            return this;
+        }
+
+
+        var books  = new Book();
+        console.log(books);
+        console.log(books.getBookThis());
+
+
+
+
+
+
+    </script>
+</head>
+<body>
+</body>
+</html>

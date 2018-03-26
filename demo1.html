@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+	<meta charset="utf-8" />
+
+    <script>
+        /**
+        * 如何理解:  创建当前对象的函数, 
+        * 这样做的目的是为了什么,
+        * 能不能修改, 
+        * 修改后的结果是什么.
+        **/
+        function Foo()
+        {
+
+            this.get = function ()
+            {
+                console.log('foo');
+            }
+
+        }
+
+
+
+        function sFoo()
+        {
+            this.get = function ()
+            {
+                console.log('sFoo');
+            }
+        }
+
+
+        var baz = function ()
+        {
+            this.get = function () {
+                console.log('baz');
+            }
+        }
+
+
+
+        var test = {
+            get: function ()
+            {
+                console.log('test');
+            }
+
+        };
+
+
+
+        var obj = new Object();
+        // 原始对象
+        console.log(obj);
+        // 函数对象
+        var bar = new Foo();
+        console.log(bar);
+        // 函数对象
+        var zab = new baz();
+        console.log(zab);
+        // 字面量对象
+        console.log(test);
+        // 结论 :  如上4中类型的实例化方式得到的结果是没有构造函数的. 但是在__proto__中是有构造函数的.
+
+
+        // 如何才有构造函数呢?
+
+        // 这么写只是给对象实例上增加了一个属性.对象__proto__上的构造函数并没有发生变化.
+        obj.constructor = test;
+        console.log(obj);
+
+        //同上述的写法一致, 增加了一属性.
+        obj.prototype = test;
+        console.log(obj);
+
+
+        
+        // 重点 :  构造函数指函数原型上的construct;
+        console.log(obj.prototype.constructor == Object);    // output: true;
+        // 说明 : 实例对象的原型中有constructor属性, 保存的是创建对象的函数.
+
+        // 用于对比.
+        var ss1 = new sFoo();
+        console.log(ss1);
+
+        // 知识拓展.
+        sFoo.prototype = new Foo();
+        sFoo.prototype.constructor = sFoo;
+        sFoo.superClass = Foo.prototype;
+
+        var ss = new sFoo();
+        
+        console.log(ss);
+        // 记录:  在没有执行如上步骤时, ss1.__proto__ 为object; 
+        // 执行后:  ss.__proto__ 为 Foo;  说明继承了Foo.
+        // 如何找到创建自己的函数呢.
+        console.log(ss.__proto__.constructor.superClass == Foo.prototype);   // output : true;
+        console.log(ss.__proto__.constructor == sFoo);  // output:true;
+        console.log(ss.constructor === sFoo.prototype.constructor); //output false
+        
+
+    </script>
+</head>
+<body>
+   
+
+</body>
+</html>

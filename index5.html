@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+	<meta charset="utf-8" />
+    <script>
+        /**
+            该程序主要目的是为了测试,类式继承会暴露出什么样的问题.
+        
+        **/
+
+        var Book = function ()
+        {
+            this.flag = false;
+            this.book = ['javascript','php'];
+        }
+
+
+        Book.prototype.getFlag = function ()
+        {
+            return this.flag;
+        }
+
+
+        var book1 = new Book();
+        var book2 = new Book();
+
+        console.log(book1.book);
+        console.log(book2.book);
+
+        book1.book.push('java');
+        console.log(book1.book);
+        console.log(book2.book);
+
+        var book3 = new Book();
+        console.log(book3.book);
+
+        
+        /**
+            结论:
+                通过这个测试可以看到, 直接实例化一个完整的类, 在修改类的属性后,
+            不会对其他对象产生影响,
+                
+                通过与index4.html文件进行结论对比, 发现,如果使用了类式继承, 
+                由于修改了__proto__,导致该类的constructor被修改了, 导致该类的对象,
+                在修改对象属性的时候,总是对其他同一父类的对象造成影响. 这个是类式继承造成的最\
+                直接的影响
+
+
+                提出新问题 :
+
+                关于类式继承中无法向父类构造函数传递参数的问题,
+
+
+        **/
+
+
+
+
+
+
+
+
+
+
+
+
+       
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+	<meta charset="utf-8" />
+    <script>
+        /**
+            该程序主要测试,子类实例属性修改,是否会互相影响?
+        **/
+
+        var Book = function (args) {
+            this.flag = false;
+            this.book = ['javascript', 'php'];
+            this.config = args;
+        }
+
+
+        Book.prototype.getFlag = function () {
+            return this.flag;
+        }
+
+        Book.prototype.getConfig = function () {
+            return this.config;
+        }
+
+        var book1 = function () {
+            this.flag = true;
+
+            this.books = ['c++','dephai','lisp'];
+        }
+
+
+
+        // 尝试用闭包的方式进行处理
+
+        var demo = function (subclass) {
+
+            return function (superclass, arguments) {
+                if (superclass instanceof Object) {
+                    subclass.prototype = new superclass(arguments);
+                }
+            }
+        }
+
+
+        var inhert = demo(book1);
+
+        inhert(Book, [1, 2, 3]);
+
+        var instance = new book1();
+        var instance1 = new book1();
+
+        instance.books.push('unknow');
+        console.log(instance1.books);
+            
+        /**
+           通过测试,  子类的实例修改子类的属性是互相不影响,
+           通过测完, 子类的实例修改父类的属性是互相影响的.
+
+           下一节:
+                有没有新的方式实现继承?
+
+        **/
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <meta charset="utf-8"/>
+    <script>
+        /**
+         实现简单的工厂模式,
+         一: 首先实现工厂类,
+         二: 实现每个原件该如何处理,
+         三: 进行代码的抽象处理, 将局部的进行抽离
+         **/
+
+        // 工厂类的实现
+        var LoginFactory = function (name) {
+            var object = null;
+            switch (name) {
+                case 'alter':
+                    object = new LoginAlter();
+                    break;
+                case 'information':
+                    object = new LoginInformation();
+                    break;
+                case 'error':
+                    object = new LoginError();
+                    break;
+                case 'success':
+                    object = new LoginSuccess();
+                    break;
+                default:
+                    object = null;
+            }
+            return object;
+        };
+
+
+        var LoginAlter = function () {
+        };
+
+        LoginAlter.prototype.setInfo = function (info) {
+            this.info = info;
+        }
+        LoginAlter.prototype.show = function () {
+            alert(this.info);
+        };
+
+        var LoginInformation = function () {
+        };
+
+        LoginInformation.prototype.setInfo = function (info) {
+            this.info = info;
+        }
+
+        LoginInformation.prototype.show = function () {
+            alert(this.info);
+        };
+
+
+        var LoginError = function () {
+        };
+
+        LoginError.prototype.setInfo = function (info) {
+            this.info = info;
+        }
+
+
+        LoginError.prototype.show = function () {
+            alert(this.info);
+        };
+
+
+        var LoginSuccess = function () {
+        };
+
+        LoginSuccess.prototype.setInfo = function (info) {
+            this.info = info;
+        }
+
+
+        LoginSuccess.prototype.show = function () {
+            alert(this.info);
+        };
+
+
+        var alt = new LoginFactory('alter');
+        alt.setInfo('login alter');
+        //alt.show();
+
+        /**
+         *  通过如上代码,可以看到每个原件类上有方法都是相同的,
+         *  只是局部的内容不同,可以用闭包的方式来代替,
+         *  通过类的继承来实现.
+         *
+         */
+
+        /**
+         * 原型式继承.
+         * @param o
+         * @returns {F}
+         */
+        function inherit(o)
+        {
+            function F() {}
+            F.prototype=o;
+            return new F();
+        }
+
+
+        /**
+         * 寄生组合式继承.
+         * @param SubClass
+         * @param SuperClass
+         */
+        function inheritObject(SubClass,SuperClass)
+        {
+            var p = inherit(SuperClass.prototype);
+            p.constructor  = SubClass;
+            SubClass.prototype = p;
+        }
+
+
+
+        function LoginSuper_new(){
+            this.info  = null;
+        }
+
+
+        LoginSuper_new.prototype.setInfo = function (info) {
+                this.info  = info;
+        };
+
+
+        LoginSuper_new.prototype.show = function (info) {
+                this.info();
+        };
+
+
+
+        function LoginAlter_sub()
+        {
+            console.log(this);
+            LoginSuper_new.call(this);
+        }
+        inheritObject(LoginAlter_sub,LoginSuper_new);
+
+
+
+        function LoginInformation_sub()
+        {
+            LoginSuper_new.call(this);
+        }
+        inheritObject(LoginAlter_sub,LoginSuper_new);
+
+
+        function LoginError_sub()
+        {
+            LoginSuper_new.call(this);
+        }
+        inheritObject(LoginAlter_sub,LoginSuper_new);
+
+
+
+        function LoginSuccess_sub()
+        {
+            LoginSuper_new.call(this);
+        }
+        inheritObject(LoginAlter_sub,LoginSuper_new);
+
+
+        var LoginFactory_new = function (name) {
+            var object = null;
+            switch (name) {
+                case 'alter':
+                    object = new LoginAlter_sub();
+                    break;
+                case 'information':
+                    object = new LoginInformation_sub();
+                    break;
+                case 'error':
+                    object = new LoginError_sub();
+                    break;
+                case 'success':
+                    object = new LoginSuccess_sub();
+                    break;
+                default:
+                    object = null;
+            }
+            return object;
+        };
+
+
+        /**
+         *  自定样式去实现就可以了,
+         */
+        function alert_info()
+        {
+            alert('login alter new');
+        }
+
+        function alter_info_new()
+        {
+            alert('login alter new new');
+        }
+
+
+
+        var  login_new  = LoginFactory_new('alter');
+        console.log(login_new);
+        login_new.setInfo(alert_info);
+        login_new.show();
+
+
+        login_new.setInfo(alter_info_new);
+        login_new.show();
+
+        /**
+         * 通过寄生组合式继承,实现类的继承
+         * 通过简单工厂实现类的创建
+         **/
+</script>
+</head>
+</html>
+

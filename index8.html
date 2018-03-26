@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+	<meta charset="utf-8" />
+    <script>
+        /**
+            该程序用与说明构造函数式继承.
+        **/
+
+        function Book(args) {
+            this.flag = false;
+            this.book = ['javascript', 'php'];
+            this.config = args;
+        }
+
+
+        Book.prototype.getFlag = function () {
+            return this.flag;
+        }
+
+        Book.prototype.getConfig = function () {
+            return this.config;
+        }
+
+
+        function book(id)
+        {
+            this.flag = true;
+            this.name = 'book';
+            Book.call(this, id);
+        }
+
+        book.prototype.getFlag = function ()
+        {
+            return this.flag;
+        }
+
+
+        var book1 = new book([1, 2, 3]);
+        
+        console.log(book1);
+        console.log(book1.getFlag());
+
+        /**
+            通过测试, 构造函数继承的实现是有明显缺点的,
+            父类的方法没有被继承下来,只有属性.
+        
+           
+            与前边的测试结论相比较, 构造函数的确定比较明显, 父类的函数没有被继承下来.
+            而且所有属性都指向了父类. 主要是就call函数的左右,用于调整this的指向.
+           
+           下一节:
+              类式继承和构造函数式继承的混合使用.
+        **/
+
+      
+    </script>
+</head>
+<body>
+
+</body>
+</html>

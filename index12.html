@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./jquery-1.11.3.js"></script>
+    <script>
+        /**
+         *  该程序主要实现 寄生式继承.
+         *  程序的关键点是 :  原型继承和寄生,
+         *  原型继承在此就不多介绍了,
+         *  寄生的意思: 是在某个对象内部可以自由的生长,
+         */
+
+        var Book={
+            name:'javascript',
+            list:['c++'],
+            getList:function()
+            {
+                return this.list;
+            }
+        };
+
+
+        /**
+         *  类式继承.
+         * @param o
+         * @returns {F}
+         */
+        function inhert(o){
+            function F(){}
+            F.prototype = o;
+            return new F();
+        }
+
+
+        function createInhert(ob) {
+            var o= inhert(ob);
+            o.getName = function(){
+                console.log(name);
+            }
+            return o;
+        }
+
+
+
+        var new_book = createInhert(Book);
+
+        new_book.name='js';
+        new_book.list.push('php');
+
+        console.log(new_book);
+        console.log(new_book.getList());
+
+
+
+        var other_book = createInhert(Book);
+
+        other_book.name='java';
+        other_book.list.push('c#');
+
+
+        console.log(other_book);
+        console.log(other_book.getList());
+
+        /**
+         *  测试结果说明 :
+         *
+         *   由于使用了原型式继承,那么它还是受原型式继承的影响,
+         *   值类型属性/引用类型属性还是会按照原型式继承来处理,
+         *   可以说这个寄生式继承,是对原型式继承的一个扩展, 扩展了一些共用的方法.
+         *   这样可以解决,由于原型式继承带来的问题.
+         *   该文的重点是 通过寄生 , 拓展了一些方法,
+         *
+         *
+         */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
