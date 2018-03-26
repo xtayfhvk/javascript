@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./jquery-1.11.3.js"></script>
+</head>
+<body>
+<form action="">
+    <input  type="checkbox" name="items" value="足球">足球
+    <input  type="checkbox" name="items" value="篮球">篮球
+    <input  type="checkbox" name="items" value="羽毛球">羽毛球
+    <input  type="checkbox" name="items" value="羽毛球">羽毛球 <br />
+    <input type="button" id="CheckAll" value="全选">
+    <input type="button" id="CheckNo" value="全不选">
+    <input type="button" id="CheckRev" value="反选">
+    <input type="button" id="Send" value="提交">
+</form>
+</body>
+</html>
+<script>
+
+// 全选
+
+$("#CheckAll").click(function () {
+    $('[name=items]:checkbox').prop('checked',true);
+});
+
+//全不选
+    
+$("#CheckNo").click(function () {
+    $("[name=items]:checkbox").prop('checked',false);
+});
+
+// 反选.
+$("#CheckRev").click(function () {
+    $("[name=items]:checkbox").each(function (i,n) {
+        $(this).prop('checked',!$(this).prop('checked'));
+    });
+});
+
+// 反选,
+$("#CheckRev").click(function () {
+    $("[name=items]:checkbox").each(function (i,n) {
+        this.checked  = !this.checked;
+    });
+})
+
+
+$("#Send").click(function () {
+    var str="选中的结果是";
+    $("[name=items]:checkbox:checked").each(function (i,n) {
+        str += $(this).val();
+    });
+    alert(str);
+});
+
+/**
+ *  如果使用了jquyer ,不建议使用attr给checked 设置值.
+ *  建议使用prop来处理.
+ *
+ *
+ */
+
+</script>
